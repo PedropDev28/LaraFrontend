@@ -76,7 +76,7 @@
               ><input
                 name="email"
                 id="email"
-                placeholder="Tu Email"
+                placeholder="Tu Email" (blur)="comprobarEmail()" [formControl]="emailControl"
                 class="input w-full focus:border-transparent focus:outline-0 transition-all input-sm focus:outline-offset-0"
               />
             </div>
@@ -115,7 +115,7 @@
                 name="password"
                 id="password"
                 type="password"
-                placeholder="Tu Contraseña"
+                placeholder="Tu Contraseña" (blur)="comprobarPassword()" [formControl]="passwordControl"
                 class="input w-full focus:border-transparent focus:outline-0 transition-all input-sm focus:outline-offset-0"
               /><button
                 type="button"
@@ -151,7 +151,23 @@
           </div>
         </div>
         <div class="mt-4 md:mt-6">
-          <button class="btn text-base gap-2 btn-primary btn-block" routerLink="inicio">
+          @if(this.errorMensaje() !== ''){
+            <div role="alert" class="alert alert-error mb-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Error! {{this.errorMensaje()}}</span>
+            </div>
+          }
+          <button class="btn text-base gap-2 btn-primary btn-block" (click)="login()">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               xmlns:xlink="http://www.w3.org/1999/xlink"

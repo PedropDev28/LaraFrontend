@@ -52,11 +52,23 @@ export class LoginComponent {
       if (response) {
         this.commonService.setLoginState(true);
         this.router.navigate(['inicio']);
+        this.commonService.setNombre(response.nombre);
       }
     },
       (error) => {
         console.log(error);
         this.errorMensaje.set('Usuario o contraseña incorrectos');
       });
+  }
+
+  showPassword() {
+    const password = document.getElementById('password');
+    if (password) {
+      if (password.getAttribute('type') === 'password') {
+        password.setAttribute('type', 'text');
+      } else {
+        password.setAttribute('type', 'password');
+      }
+    }
   }
 }

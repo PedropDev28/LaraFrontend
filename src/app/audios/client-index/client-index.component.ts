@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLinkWithHref } from '@angular/router';
+import { Router, RouterLinkWithHref } from '@angular/router';
 import { DbService } from '../../core/db.service';
 import { Usuario } from '../../models/usuario';
 import { CommonService } from '../../common/common.service';
@@ -13,13 +13,13 @@ import { CommonService } from '../../common/common.service';
 })
 export class ClientIndexComponent {
   modal: any = document.getElementById('my_modal_1');
-  buttonAceptar: any = document.getElementById('aceptar');
   private dbService = inject(DbService);
   private commonService = inject(CommonService);
   aceptadoConsetimiento = this.commonService.aceptadoConsetimiento;
   Usuarios: Usuario[] = [];
+  nombre: string = this.commonService.getNombre();
 
-  constructor() {
+  constructor(private router: Router) {
     this.dbService.getUsuarios().then((data) => {
       this.Usuarios = data;
     });
@@ -31,8 +31,14 @@ export class ClientIndexComponent {
     if (!this.commonService.getAceptarConsetimiento()) {
       if (this.modal) {
         this.modal.showModal();
-        this.commonService.setAceptarConsetimiento(true);
       }
     }
+  }
+
+  aceptarConsentimiento() {
+    this.commonService.setAceptarConsetimiento(true);
+    this.commonService.setLoginState(true);
+    //recargar la pagina
+    window.location.reload();
   }
 }

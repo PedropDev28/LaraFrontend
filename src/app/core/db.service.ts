@@ -19,6 +19,6 @@ export class DbService {
   getUsuarioByEmailAndPassword(email: string, password: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = { email, password };
-    return this.http.post(`${this.apiUrl}/usuarios/login`, body, { headers }) as Observable<any>;
+    return this.http.post(`${this.apiUrl}/login/`, body, { headers }) as Observable<any>;
   }
 }

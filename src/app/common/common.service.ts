@@ -7,6 +7,7 @@ export class CommonService {
 
   aceptadoConsetimiento = signal(false);
   isLoogeado = signal(false);
+  nombre = signal('');
 
   setLoginState(isLoggedIn: boolean): void {
     this.isLoogeado.set(isLoggedIn);
@@ -26,5 +27,15 @@ export class CommonService {
   getAceptarConsetimiento(): boolean {
     const storedState = localStorage.getItem('aceptadoConsetimiento');
     return storedState ? JSON.parse(storedState) : false; // False por defecto si no existe
+  }
+
+  setNombre(nombre: string): void {
+    this.nombre.set(nombre);
+    localStorage.setItem('nombre', nombre);
+  }
+
+  getNombre(): string {
+    const storedState = localStorage.getItem('nombre');
+    return storedState ? storedState : ''; // False por defecto si no existe
   }
 }

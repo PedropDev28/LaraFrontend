@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class DbService {
 
-  private apiUrl = 'http://127.0.0.1:8000';
+  private apiUrl = 'https://larabackend.onrender.com';
   constructor(private http: HttpClient) { }
 
   // Autenticación: Login

@@ -1,4 +1,6 @@
 import { Injectable, signal } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,8 @@ export class CommonService {
   aceptadoConsetimiento = signal(false);
   isLoogeado = signal(false);
   nombre = signal('');
+  constructor(private cookieService: CookieService) {
+  }
 
   setLoginState(isLoggedIn: boolean): void {
     this.isLoogeado.set(isLoggedIn);
@@ -38,4 +42,11 @@ export class CommonService {
     const storedState = localStorage.getItem('nombre');
     return storedState ? storedState : ''; // False por defecto si no existe
   }
+
+  // Método para guardar el token en una cookie
+  setToken(token: string): void {
+    this.cookieService.set('token', token);
+  }
+
+
 }

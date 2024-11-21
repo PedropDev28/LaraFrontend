@@ -14,14 +14,4 @@ export class DbService {
   login(username: string, password: string) {
     return this.http.post(this.apiUrl + '/login/token', { username, password }, { withCredentials: true });
   }
-
-  // Obtener datos protegidos
-  getProtectedData(): Observable<any> {
-    return this.http.get(this.apiUrl + '/login/protected', { withCredentials: true });
-  }
-
-  // Verificar si el usuario está autenticado
-  checkAuthentication(): Observable<any> {
-    return this.http.get(this.apiUrl + '/login/protected', { withCredentials: true });
-  }
 }

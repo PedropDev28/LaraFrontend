@@ -51,6 +51,8 @@ export class LoginComponent {
         (response: any) => {
           console.log(response);
           if (response.message === 'Login successful') {
+            //Guardar token en una cookie
+            this.commonService.setToken(response.token);
             this.router.navigate(['inicio']);
             console.log(response);
           } else {
@@ -75,11 +77,4 @@ export class LoginComponent {
     }
   }
 
-  ngAfterViewInit(): void {
-    this.dbService.checkAuthentication().subscribe((response: any) => {
-      if (response) {
-        console.log(response);
-      }
-    });
-  }
 }

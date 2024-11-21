@@ -20,10 +20,6 @@ export class ClientIndexComponent {
   nombre: string = this.commonService.getNombre();
 
   constructor(private router: Router) {
-    this.dbService.getUsuarios().then((data) => {
-      this.Usuarios = data;
-    });
-    console.log(this.aceptadoConsetimiento());
   }
 
   ngAfterViewInit(): void {

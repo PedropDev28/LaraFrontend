@@ -1,16 +1,15 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterLinkWithHref } from '@angular/router';
+import { Router } from '@angular/router';
 import { DbService } from '../../core/db.service';
-import { Usuario } from '../../models/usuario';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonService } from '../../common/common.service';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
 
@@ -47,18 +46,21 @@ export class LoginComponent {
   constructor(private router: Router) { }
 
   login() {
-    this.dbService.getUsuarioByEmailAndPassword(this.emailControl.value, this.passwordControl.value).subscribe((response: any) => {
-      console.log(response);
-      if (response) {
-        this.commonService.setLoginState(true);
-        this.router.navigate(['inicio']);
-        this.commonService.setNombre(response.nombre);
-      }
-    },
+    this.dbService.login(this.emailControl.value, this.passwordControl.value).subscribe(
+      (response: any) => {
+        console.log(response);
+        if (response.message === "Login successful") {
+          this.router.navigate(['inicio']);
+          console.log(response);
+        }else{
+          this.errorMensaje.set('Usuario o contraseña incorrectos');
+        }
+      },
       (error) => {
         console.log(error);
         this.errorMensaje.set('Usuario o contraseña incorrectos');
-      });
+      }
+    );
   }
 
   showPassword() {

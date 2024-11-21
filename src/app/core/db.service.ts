@@ -1,7 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Usuario } from '../models/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +10,18 @@ export class DbService {
   private apiUrl = 'https://larabackend.onrender.com';
   constructor(private http: HttpClient) { }
 
-  async getUsuarios() {
-    const response = await fetch(`${this.apiUrl}/usuarios`);
-    return await response.json();
+  // Autenticación: Login
+  login(username: string, password: string) {
+    return this.http.post(this.apiUrl + '/login/token', { username, password }, { withCredentials: true });
   }
 
-  getUsuarioByEmailAndPassword(email: string, password: string): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const body = { email, password };
-    return this.http.post(`${this.apiUrl}/login/`, body, { headers }) as Observable<any>;
+  // Obtener datos protegidos
+  getProtectedData(): Observable<any> {
+    return this.http.get(this.apiUrl + '/login/protected', { withCredentials: true });
+  }
+
+  // Verificar si el usuario está autenticado
+  checkAuthentication(): Observable<any> {
+    return this.http.get(this.apiUrl + '/login/protected', { withCredentials: true });
   }
 }

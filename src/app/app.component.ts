@@ -19,11 +19,5 @@ export class AppComponent {
 
   constructor(private router: Router) {}
 
-  ngOnInit(): void {
-    this.dbService.checkAuthentication().subscribe((response: any) => {
-      if (response) {
-        console.log(response);
-      }
-    });
-  }
+
 }

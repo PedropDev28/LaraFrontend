@@ -9,10 +9,9 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-
   private dbService = inject(DbService);
   errorMensaje = signal('');
   commonService = inject(CommonService);
@@ -26,7 +25,7 @@ export class LoginComponent {
     nonNullable: true,
     validators: [Validators.required, Validators.email],
   });
-  
+
   comprobarPassword() {
     if (this.passwordControl.invalid) {
       this.errorMensaje.set('Contraseña invalida');
@@ -43,24 +42,26 @@ export class LoginComponent {
     }
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   login() {
-    this.dbService.login(this.emailControl.value, this.passwordControl.value).subscribe(
-      (response: any) => {
-        console.log(response);
-        if (response.message === "Login successful") {
-          this.router.navigate(['inicio']);
+    this.dbService
+      .login(this.emailControl.value, this.passwordControl.value)
+      .subscribe(
+        (response: any) => {
           console.log(response);
-        }else{
+          if (response.message === 'Login successful') {
+            this.router.navigate(['inicio']);
+            console.log(response);
+          } else {
+            this.errorMensaje.set('Usuario o contraseña incorrectos');
+          }
+        },
+        (error) => {
+          console.log(error);
           this.errorMensaje.set('Usuario o contraseña incorrectos');
         }
-      },
-      (error) => {
-        console.log(error);
-        this.errorMensaje.set('Usuario o contraseña incorrectos');
-      }
-    );
+      );
   }
 
   showPassword() {
@@ -72,5 +73,13 @@ export class LoginComponent {
         password.setAttribute('type', 'password');
       }
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.dbService.checkAuthentication().subscribe((response: any) => {
+      if (response) {
+        console.log(response);
+      }
+    });
   }
 }

@@ -4,6 +4,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { ClientTagComponent } from './audios/client-tag/client-tag.component';
 import { CommonService } from './common/common.service';
 import { DbService } from './core/db.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-root',
@@ -14,10 +15,15 @@ import { DbService } from './core/db.service';
 })
 export class AppComponent {
   title = 'LaraFrontend';
-  isLogged = false;
-  private dbService = inject(DbService);
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private cookieService: CookieService) {}
 
+  ngOnInit(): void {
 
+    if (this.cookieService.get('token')) {
+      this.router.navigate(['inicio']);
+    } else {
+      this.router.navigate(['']);
+    }
+  }
 }

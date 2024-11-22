@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DbService } from '../../core/db.service';
 import { CommonService } from '../../common/common.service';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,8 @@ export class LoginComponent {
   private dbService = inject(DbService);
   errorMensaje = signal('');
   commonService = inject(CommonService);
+
+  
 
   passwordControl = new FormControl('', {
     nonNullable: true,
@@ -42,7 +45,7 @@ export class LoginComponent {
     }
   }
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private cookieService: CookieService) {}
 
   login() {
     this.dbService
@@ -52,6 +55,7 @@ export class LoginComponent {
           console.log(response);
           if (response.message === 'Login successful') {
             //Guardar token en una cookie
+            console.log("Estoy aqui");
             this.commonService.setToken(response.token);
             this.router.navigate(['inicio']);
             console.log(response);
@@ -74,6 +78,17 @@ export class LoginComponent {
       } else {
         password.setAttribute('type', 'password');
       }
+    }
+  }
+
+  ngOnInit(): void {
+    if(this.cookieService.get('token')) {
+      console.log("Estoy aqui");
+      this.router.navigate(['inicio']);
+      this.commonService.setLoginState(true);
+      
+    }else{
+      this.router.navigate(['']);
     }
   }
 

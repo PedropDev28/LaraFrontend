@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject } from 'rxjs';
+import { Usuario } from '../models/usuario';
 
 @Injectable({
   providedIn: 'root',
@@ -8,8 +9,10 @@ import { BehaviorSubject } from 'rxjs';
 export class CommonService {
   loginState$: any;
   aceptadoConsetimiento$: any;
+  user$: any;
   private aceptadoConsetimiento: BehaviorSubject<boolean>;
   private isLoogeado: BehaviorSubject<boolean>;
+  private user: BehaviorSubject<any>;
 
   constructor(private cookieService: CookieService) {
     this.isLoogeado = new BehaviorSubject<boolean>(
@@ -20,8 +23,11 @@ export class CommonService {
       this.getAceptarConsetimiento()
     );
 
+    this.user = new BehaviorSubject<any>(this.getUser());
+
     this.loginState$ = this.isLoogeado.asObservable();
     this.aceptadoConsetimiento$ = this.aceptadoConsetimiento.asObservable();
+    this.user$ = this.user.asObservable();
   }
 
   nombre = signal('');
@@ -64,5 +70,15 @@ export class CommonService {
 
   deleteToken(): void {
     this.cookieService.delete('token');
+  }
+
+  setUser(user: Usuario): void {
+    this.user.next(user);
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  getUser(): Usuario {
+    const storedState = localStorage.getItem('user');
+    return storedState ? JSON.parse(storedState) : null; // False por defecto si no existe
   }
 }

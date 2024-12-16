@@ -6,6 +6,7 @@
     margin: 0 auto;
     animation: typing 3.5s steps(28, end) forwards,
                blink-caret .5s step-end 3.5s;
+    
 }
 
 /* The typing effect */

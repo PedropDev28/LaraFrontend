@@ -9,7 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, ClientTagComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -20,10 +20,10 @@ export class AppComponent {
 
   ngOnInit(): void {
 
-    if (this.cookieService.get('token')) {
-      this.router.navigate(['inicio']);
-    } else {
-      this.router.navigate(['']);
-    }
+    // if (this.cookieService.get('token')) {
+    //   this.router.navigate(['inicio']);
+    // } else {
+    //   this.router.navigate(['']);
+    // }
   }
 }

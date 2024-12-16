@@ -58,6 +58,8 @@ export class LoginComponent {
             console.log("Estoy aqui");
             this.commonService.setToken(response.token);
             this.router.navigate(['inicio']);
+            this.commonService.setUser(response.user);
+            console.log(this.commonService.getUser());
             console.log(response);
           } else {
             this.errorMensaje.set('Usuario o contraseña incorrectos');

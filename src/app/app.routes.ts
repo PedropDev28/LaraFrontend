@@ -10,5 +10,6 @@ export const routes: Routes = [
     {path: 'inicio', component: ClientIndexComponent},
     {path: 'tag', component: ClientTagComponent},
     {path: 'audio', component: ClientTextComponent},
-    {path: 'profile', component: UpdateComponent}
+    {path: 'profile', component: UpdateComponent},
+    {path: 'tag', component: ClientTagComponent},
 ];

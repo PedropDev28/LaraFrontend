@@ -16,7 +16,7 @@ export class ClientIndexComponent {
   modal: any = document.getElementById('my_modal_1');
   private commonService = inject(CommonService);
   Usuarios: Usuario[] = [];
-  nombre: string = this.commonService.getNombre();
+  nombre: string = this.commonService.getUser().nombre;
 
   constructor(private router: Router) {
   }

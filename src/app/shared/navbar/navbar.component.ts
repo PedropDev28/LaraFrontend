@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { CommonService } from '../../common/common.service';
-import { Router } from '@angular/router';
+import { Router, RouterLinkWithHref } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [],
+  imports: [RouterLinkWithHref],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })

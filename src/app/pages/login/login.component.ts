@@ -54,20 +54,21 @@ export class LoginComponent {
       .subscribe(
         (response: any) => {
           console.log(response);
-          if (response.message === 'Login successful') {
+          if (response.message == 'Login successful') {
             // guardar token en localstorage
             localStorage.setItem('token', response.token);
             this.authService.setUsuario(response.user);
-            console.log("Estoy aqui");
-            console.log(response);
-            if(response.user.rol === 'cliente'){
-              setTimeout(() => {
-                this.isLoaded = true;
-                this.router.navigate(['/inicioCliente']);
-              }, 1000)
+            if (response.user.rol === 'cliente') {
+              console.log('cliente');
+              this.router.navigate(['/inicioCliente']);
+            } else if (response.user.rol === 'tecnico') {
+                this.router.navigate(['/inicioTecnico']);
+            } else if (response.user.rol === 'admin') {
+                this.router.navigate(['/inicioAdmin']);
+            } else {
+                this.router.navigate(['/']);
             }
-            
-          } else if(response.status === 401) {
+          } else if (response.status === 401) {
             this.errorMensaje.set('Usuario o contraseña incorrectos');
           }
         },
@@ -94,5 +95,4 @@ export class LoginComponent {
       this.usuario = usuario;
     });
   }
-
 }

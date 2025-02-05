@@ -29,7 +29,7 @@ export class AppComponent {
             this.usuario = usuario;
           });
           if(this.usuario.rol === 'cliente'){
-            this.router.navigate(['/view-tags']);
+            this.router.navigate(['/inicioCliente']);
           }
         },
         error: (err) => {

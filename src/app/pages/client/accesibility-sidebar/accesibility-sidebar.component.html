@@ -1,0 +1,59 @@
+<div class="fixed inset-y-0 right-0 w-80 bg-white shadow-lg transform transition-transform duration-300 ease-in-out overflow-y-auto z-50"
+     [class.translate-x-full]="!isOpen">
+  <div class="p-4">
+    <h2 class="text-2xl font-bold mb-4">Opciones de Accesibilidad</h2>
+    <!--Añadir boton para cerrar -->
+    <button class="btn btn-ghost btn-circle absolute top-0 right-0" (click)="isOpen = false">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <div class="mb-6">
+      <h3 class="text-lg font-semibold mb-2">Tamaño de Fuente</h3>
+      <div class="flex items-center justify-between">
+        <button (click)="decreaseFontSize()" class="btn btn-sm">A-</button>
+        <span>{{ fontSize }}px</span>
+        <button (click)="increaseFontSize()" class="btn btn-sm">A+</button>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <h3 class="text-lg font-semibold mb-2">Contraste</h3>
+      <div class="flex flex-col gap-2">
+        <button (click)="setContrast('normal')" class="btn btn-sm" [class.btn-primary]="contrast === 'normal'">Normal</button>
+        <button (click)="setContrast('high-contrast')" class="btn btn-sm" [class.btn-primary]="contrast === 'high-contrast'">Alto Contraste</button>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <h3 class="text-lg font-semibold mb-2">Modo Daltónico</h3>
+      <div class="flex flex-col gap-2">
+        <button (click)="setColorBlindMode('none')" class="btn btn-sm" [class.btn-primary]="colorBlindMode === 'none'">Normal</button>
+        <button (click)="setColorBlindMode('protanopia')" class="btn btn-sm" [class.btn-primary]="colorBlindMode === 'protanopia'">Protanopia</button>
+        <button (click)="setColorBlindMode('deuteranopia')" class="btn btn-sm" [class.btn-primary]="colorBlindMode === 'deuteranopia'">Deuteranopia</button>
+        <button (click)="setColorBlindMode('tritanopia')" class="btn btn-sm" [class.btn-primary]="colorBlindMode === 'tritanopia'">Tritanopia</button>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <h3 class="text-lg font-semibold mb-2">Movimiento Reducido</h3>
+      <label class="cursor-pointer label">
+        <span class="label-text">Reducir animaciones</span> 
+        <input type="checkbox" class="toggle toggle-primary" 
+               [checked]="motionReduced"
+               (change)="toggleMotionReduced()">
+      </label>
+    </div>
+
+    <div class="mb-6">
+      <h3 class="text-lg font-semibold mb-2">Dislexia</h3>
+      <label class="cursor-pointer label">
+        <span class="label-text">Fuente amigable para dislexia</span> 
+        <input type="checkbox" class="toggle toggle-primary" 
+               [checked]="dyslexiaFont"
+               (change)="toggleDyslexiaFont()">
+      </label>
+    </div>
+  </div>
+</div>

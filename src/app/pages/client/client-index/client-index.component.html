@@ -1,0 +1,65 @@
+<app-navbar></app-navbar>
+<!-- Description: Client Index Page -->
+<div class="min-h-screen bg-gradient-to-br from-cyan-50 to-blue-100 pt-16">
+  <div class="container mx-auto px-4 py-12">
+    <!-- Hero Section -->
+    <div class="text-center mb-16 animate-fade-in">
+      <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4 animate-title">
+        Bienvenido a LARA
+      </h1>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto animate-subtitle">
+        Tu plataforma de investigación y análisis de audio
+      </p>
+    </div>
+
+    <!-- Cards Section -->
+    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <!-- Record Audio Card -->
+      <div class="card bg-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-card-left">
+        <div class="card-body">
+          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+            </svg>
+          </div>
+          <h2 class="card-title justify-center mb-2">Grabar Audio</h2>
+          <p class="text-center text-gray-600 mb-4">
+            Graba y analiza muestras de audio para tu investigación
+          </p>
+          <div class="card-actions justify-center">
+            <button class="btn btn-primary" routerLink="/record-audio">
+              Comenzar a Grabar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- View Tags Card -->
+      <div class="card bg-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-card-right">
+        <div class="card-body">
+          <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+            </svg>
+          </div>
+          <h2 class="card-title justify-center mb-2">Ver Tags</h2>
+          <p class="text-center text-gray-600 mb-4">
+            Explora y analiza los tags de tus grabaciones
+          </p>
+          <div class="card-actions justify-center">
+            <button class="btn btn-primary" routerLink="/view-tags">
+              Explorar Tags
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wave Animation -->
+    <div class="wave-container">
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+    </div>
+  </div>
+</div>

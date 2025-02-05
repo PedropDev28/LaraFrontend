@@ -1,0 +1,122 @@
+/* Animaciones para el botón de grabación */
+@keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    }
+  }
+  
+  .animate-pulse {
+    animation: pulse 2s infinite;
+  }
+  
+  /* Animaciones para la visualización de la forma de onda */
+  canvas {
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Efectos hover mejorados */
+  .recording-button {
+    transition: all 0.3s ease;
+  }
+  
+  .recording-button:hover {
+    transform: scale(1.05);
+  }
+  
+  .recording-button:active {
+    transform: scale(0.95);
+  }
+  
+  /* Animación para el tiempo de grabación */
+  @keyframes slideIn {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .time-display {
+    animation: slideIn 0.3s ease-out;
+  }
+  
+  /* Mejoras de accesibilidad */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-pulse,
+    .recording-button,
+    canvas,
+    .time-display {
+      animation: none;
+      transition: none;
+    }
+  }
+  
+  /* Estilos para alto contraste */
+  @media (prefers-contrast: high) {
+    .recording-button {
+      border: 2px solid currentColor;
+    }
+  
+    canvas {
+      border: 1px solid currentColor;
+    }
+  }
+  
+  /* Responsive design */
+  @media (max-width: 640px) {
+    .container {
+      padding: 1rem;
+    }
+  
+    .recording-controls {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+  
+  /* Animaciones para los controles de reproducción */
+  .playback-controls button {
+    transition: all 0.2s ease;
+  }
+  
+  .playback-controls button:hover {
+    transform: scale(1.1);
+  }
+  
+  .playback-controls button:active {
+    transform: scale(0.9);
+  }
+  
+  /* Efectos de hover para el textarea */
+  textarea:hover {
+    border-color: #60a5fa;
+  }
+  
+  /* Animación para mensajes de error */
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-10px);
+    }
+    75% {
+      transform: translateX(10px);
+    }
+  }
+  
+  .error-message {
+    animation: shake 0.5s ease-in-out;
+  }
+  
+  

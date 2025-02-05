@@ -1,0 +1,195 @@
+<app-navbar></app-navbar>
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 p-8 ">
+  <div class="container mx-auto mt-20">
+    <h1 class="text-4xl font-bold  mb-8">
+      Explorador de Etiquetas
+    </h1>
+
+    <!-- Buscador y Filtros -->
+    <div class="mb-8 glass p-6 rounded-lg shadow-md">
+      <div class="flex flex-wrap items-center gap-4">
+        <div class="flex-grow">
+          <input
+            type="text"
+            placeholder="Buscar etiquetas..."
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div class="flex gap-2">
+          <button
+            [class.bg-blue-500]="selectedCategory === 'all'"
+            class="px-4 py-2 rounded-md text-white transition-colors duration-200"
+            [ngClass]="{
+              'bg-blue-500': selectedCategory === 'all',
+              'bg-gray-500': selectedCategory !== 'all'
+            }"
+          >
+            Todas
+          </button>
+          <button
+            [class.bg-blue-500]="selectedCategory === 'less-recorded'"
+            class="px-4 py-2 rounded-md text-white transition-colors duration-200"
+            [ngClass]="{
+              'bg-blue-500': selectedCategory === 'less-recorded',
+              'bg-gray-500': selectedCategory !== 'less-recorded'
+            }"
+          >
+            Menos Grabadas
+          </button>
+          <button
+            [class.bg-blue-500]="selectedCategory === 'random'"
+            class="px-4 py-2 rounded-md text-white transition-colors duration-200"
+            [ngClass]="{
+              'bg-blue-500': selectedCategory === 'random',
+              'bg-gray-500': selectedCategory !== 'random'
+            }"
+          >
+            Aleatorias
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estadísticas -->
+    <!-- <div class="mb-8 bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold  mb-4">
+        Estadísticas de Etiquetas
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-blue-100 p-4 rounded-md">
+          <p class="text-lg font-semibold">Total de Etiquetas</p>
+          <p class="text-3xl font-bold text-blue-600">{{ allTags.length }}</p>
+        </div>
+        <div class="bg-green-100 p-4 rounded-md">
+          <p class="text-lg font-semibold">Total de Grabaciones</p>
+          <p class="text-3xl font-bold text-green-600">
+            {{ getTotalTagCount() }}
+          </p>
+        </div>
+        <div class="bg-purple-100 p-4 rounded-md">
+          <p class="text-lg font-semibold">Etiqueta Más Usada</p>
+          <p class="text-3xl font-bold text-purple-600">
+            {{ getMaxTagCount() }} veces
+          </p>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Carruseles de Etiquetas -->
+    <div class="mb-8 ">
+      <h2 class="text-2xl font-bold  mb-6">
+        Etiquetas menos grabadas
+      </h2>
+      <div
+        class="tag-carousel-container overflow-hidden bg-base-100 p-4 rounded-lg shadow-md glass"
+        aria-live="polite"
+      >
+        <div
+          #lessRecordedCarousel
+          class="tag-carousel flex "
+          role="list"
+          aria-label="Etiquetas menos grabadas"
+        >
+        @for (tag of lessRecordedTags; track $index) {
+          <div class="tag-item flex-shrink-0 mx-2" role="listitem">
+            <span
+              class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-blue-100 text-blue-800 border border-blue-200 hover:bg-blue-200 hover:border-blue-300 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md"
+              tabindex="0"
+              [attr.aria-label]="
+                'Etiqueta ' + tag.texto.texto + ' con ' + tag.count + ' grabaciones'
+              "
+            >
+              {{ tag.texto.texto }}
+              <span
+              class="ml-2 bg-green-200 text-secondary px-2 py-1 rounded-full text-xs"
+              >{{ tag.texto.tag }}</span
+            >
+            </span>
+          </div>
+        }
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold  mb-6">
+        Etiquetas aleatorias
+      </h2>
+      <div
+        class="tag-carousel-container glass bg-base-100 p-4 rounded-lg shadow-md overflow-x-auto"
+        aria-live="polite"
+      >
+        <div
+          #randomCarousel
+          class="tag-carousel flex"
+          role="list"
+          aria-label="Etiquetas aleatorias"
+        >
+          @for (tag of randomTags; track $index) {
+          <div class="tag-item flex-shrink-0 mx-2" role="listitem">
+            <span
+              class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-green-100 text-green-800 border border-green-200 hover:bg-green-200 hover:border-green-300 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md"
+              tabindex="0"
+              [attr.aria-label]="
+                'Etiqueta ' + tag.texto.texto  + ' con ' + tag.count + ' grabaciones'
+              "
+            >
+              {{ tag.texto.texto }}
+              <span
+              class="ml-2 bg-green-200 text-secondary px-2 py-1 rounded-full text-xs"
+              >{{ tag.texto.tag }}</span
+            >
+            </span>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Nube de Etiquetas -->
+    <div class="mb-8  p-0 ">
+      <h2 class="text-2xl font-bold  mb-4">Nube de Etiquetas</h2>
+      <div class=" glass bg-base-100 rounded-lg shadow-md p-4">
+        <div class="flex flex-wrap justify-center gap-4 ">
+          @for (tag of allTags; track $index) {
+          <span
+            class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md"
+            [ngStyle]="{ 'font-size': 14 + tag.count / 2 + 'px' }"
+            [ngClass]="{
+              'bg-blue-100 text-blue-800 hover:bg-blue-200':
+                tag.type === 'less-recorded',
+              'bg-green-100 text-green-800 hover:bg-green-200':
+                tag.type === 'random'
+            }"
+            tabindex="0"
+            [attr.aria-label]="
+              'Etiqueta ' + tag.texto.texto + ' con ' + tag.count + ' grabaciones'
+            "
+          >
+            {{ tag.texto.texto }}
+            <span
+                class="ml-2 bg-green-200 text-secondary px-2 py-1 rounded-full text-xs"
+                >{{ tag.texto.tag }}</span
+              >
+          </span>
+          }
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Etiquetas Trending -->
+    <!-- <div class="mb-8 bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold  mb-4">Etiquetas Trending</h2>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+        @for (tag of trendingTags; track $index) {
+          <div class="bg-yellow-100 p-4 rounded-md text-center">
+            <p class="text-lg font-semibold text-yellow-800">{{ tag.text }}</p>
+            <p class="text-3xl font-bold text-yellow-600">#{{ $index + 1 }}</p>
+            <p class="text-sm text-yellow-700">{{ tag.count }} grabaciones</p>
+          </div>
+        }
+      </div>
+    </div> -->
+  </div>
+</div>

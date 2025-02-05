@@ -1,4 +1,43 @@
-/* You can add global styles to this file, and also import other style files */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap');
+
+/* Estilos para el modo de alto contraste */
+body.high-contrast {
+  background-color: #000;
+  color: #fff;
+}
+
+body.high-contrast a,
+body.high-contrast button {
+  color: #ffff00;
+}
+
+/* Estilos para los modos de daltonismo */
+body[data-color-blind-mode="protanopia"] {
+  filter: url('#protanopia-filter');
+}
+
+body[data-color-blind-mode="deuteranopia"] {
+  filter: url('#deuteranopia-filter');
+}
+
+body[data-color-blind-mode="tritanopia"] {
+  filter: url('#tritanopia-filter');
+}
+
+/* SVG filters para simular daltonismo */
+body.reduce-motion * {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Estilos para fuente amigable con dislexia */
+
+body.dyslexia-friendly {
+  font-family: 'Lexend', sans-serif;
+  line-height: 1.5;
+  letter-spacing: 0.05em;
+  word-spacing: 0.1em;
+}

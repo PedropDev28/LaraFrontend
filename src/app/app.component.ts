@@ -1,10 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { NavbarComponent } from './shared/navbar/navbar.component';
-import { ClientTagComponent } from './audios/client-tag/client-tag.component';
-import { CommonService } from './common/common.service';
 import { DbService } from './core/db.service';
-import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from './auth/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -15,15 +12,32 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class AppComponent {
   title = 'LaraFrontend';
+  private authService = inject(AuthService);
+  private dbService = inject(DbService);
+  usuario: any;
 
-  constructor(private router: Router, private cookieService: CookieService) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
-
-    // if (this.cookieService.get('token')) {
-    //   this.router.navigate(['inicio']);
-    // } else {
-    //   this.router.navigate(['']);
-    // }
+    let token = localStorage.getItem('token');
+    if (token) {
+      this.dbService.getCurrentUser().subscribe({
+        next: (response) => {
+          console.log('Usuario autenticado:', response);
+          this.authService.setUsuario(response);
+          this.authService.usuario$.subscribe((usuario) => {
+            this.usuario = usuario;
+          });
+          if(this.usuario.rol === 'cliente'){
+            this.router.navigate(['/view-tags']);
+          }
+        },
+        error: (err) => {
+          console.error('Error al recuperar usuario:', err);
+          this.router.navigate(['/']);
+        },
+      });
+    }
   }
+  
 }

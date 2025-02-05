@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -12,7 +12,33 @@ export class DbService {
 
   // Autenticación: Login
   login(username: string, password: string) {
-    return this.http.post(this.apiUrl + '/login/token', { username, password }, { withCredentials: true });
+    const body = new URLSearchParams();
+    body.set('username', username);
+    body.set('password', password);
+  
+    return this.http.post(this.apiUrl + '/login/token', body.toString(), {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      withCredentials: true
+    });
+  }
+
+  logout(): Observable<any> {
+    return this.http.get(this.apiUrl + '/login/logout', { withCredentials: true });
+  }
+  
+
+  getCurrentUser(): Observable<any> {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('No hay token en localStorage');
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get(`${this.apiUrl}/login/me`, { headers });
   }
 
   getTagsLess(): Observable<any> {
@@ -21,5 +47,9 @@ export class DbService {
 
   getTagsRandom(): Observable<any> {
     return this.http.get(this.apiUrl + '/audios/five_random', { withCredentials: true });
+  }
+
+  getTwentyTags(): Observable<any> {
+    return this.http.get(this.apiUrl + '/audios/twenty_audios', { withCredentials: true });
   }
 }

@@ -1,0 +1,32 @@
+<div class="min-h-screen bg-gray-100 flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 bg-white rounded-lg shadow-md p-8 animate-fade-in-down">
+      <h2 class="text-2xl font-bold mb-4 text-center">Consentimiento de Grabación</h2>
+      <p class="mb-6 text-gray-600">
+        Para mejorar nuestros servicios y proporcionar una experiencia personalizada, LARA necesita grabar y almacenar datos de audio. Esta información se utilizará únicamente con fines de mejora del servicio y no será compartida con terceros.
+      </p>
+      <p class="mb-6 text-gray-600">
+        Al hacer clic en "Aceptar", usted acepta que LARA grabe y almacene sus datos de audio de acuerdo con nuestra política de privacidad.
+      </p>
+      <button class="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+        Aceptar
+      </button>
+    </div>
+  </div>
+  
+  <style>
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translate3d(0, -20%, 0);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+    .animate-fade-in-down {
+      animation: fadeInDown 0.5s ease-out;
+    }
+  </style>
+  
+  

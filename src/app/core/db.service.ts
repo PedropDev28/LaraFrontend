@@ -52,4 +52,12 @@ export class DbService {
   getTwentyTags(): Observable<any> {
     return this.http.get(this.apiUrl + '/audios/twenty_audios', { withCredentials: true });
   }
+
+  getUsersByParent(parent: any): Observable<any> {
+    return this.http.get(this.apiUrl + '/login/by_parent/' + parent, { withCredentials: true });
+  }
+
+  getAudiosByUser(usermail: any): Observable<any> {
+    return this.http.get(this.apiUrl + '/audios/by_user/' + usermail, { withCredentials: true });
+  }
 }

@@ -15,7 +15,7 @@
             class="px-6 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105
                    shadow-sm hover:shadow-md"
           >
-            {{ tab === 'phrases' ? 'Frases' : 'Usuarios' }}
+            {{ tab === 'phrases' ? 'Audios' : 'Usuarios' }}
           </button>
           
         }
@@ -26,67 +26,57 @@
         <div class="flex-grow max-w-md">
           <input
             type="text"
-            [placeholder]="'Buscar ' + (activeTab === 'phrases' ? 'frases' : 'usuarios') + '...'"
+            [placeholder]="'Buscar ' + (activeTab === 'phrases' ? 'audios' : 'usuarios') + '...'"
             class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 
                    focus:border-transparent transition-all duration-200"
           >
-        </div>
-        <div class="flex gap-2 flex-wrap">
-          <button
-            (click)="selectedCategory = 'all'"
-            [class.bg-blue-500]="selectedCategory === 'all'"
-            [class.text-white]="selectedCategory === 'all'"
-            class="px-4 py-2 rounded-lg border border-gray-200 hover:bg-blue-500 hover:text-white 
-                   transition-all duration-200"
-          >
-            Todos
-          </button>
-          @for (category of getCategories(); track $index) {
-            <button
-              (click)="selectedCategory = category"
-              [class.bg-blue-500]="selectedCategory === category"
-              [class.text-white]="selectedCategory === category"
-              class="px-4 py-2 rounded-lg border border-gray-200 hover:bg-blue-500 hover:text-white 
-                     transition-all duration-200"
-            >
-              {{ category }}
-            </button>
-          }
         </div>
       </div>
     </div>
 
     <!-- Content -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" [@cardAnimation]="getFilteredItems().length">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" [@cardAnimation]="activeTab">
       <!-- Phrases Cards -->
        @if(activeTab === 'phrases') {
-        @for (phrase of getFilteredItems(); track $index) {
+        @for (phrase of phrases[0]; track $index) {
           <div class="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 
                       transform hover:-translate-y-1 overflow-hidden">
             <div class="p-6">
               <div class="flex items-start justify-between mb-4">
-                <span [class]="getStatusColor(phrase.status) + ' px-3 py-1 rounded-full text-sm font-medium'">
-                  {{ phrase.status }}
+                <span [class]="">
+                  {{ phrase.usuario.mail }}
                 </span>
                 <div class="flex items-center space-x-2">
-                  <span class="text-sm text-gray-500">{{ formatDate(phrase.createdAt) }}</span>
+                  <button class="p-2 flex items-center justify-center bg-green-100 rounded-lg cursor-pointer hover:bg-green-200 transition-all duration-200">
+                    <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                    </svg>                    
+                  </button>
+                  <button class="p-2 flex items-center justify-center bg-red-100 rounded-lg cursor-pointer hover:bg-red-200 transition-all duration-200">
+                    <svg class="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                      <path fill-rule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clip-rule="evenodd"/>
+                    </svg>
+                  </button>
                 </div>
               </div>
-              <p class="text-gray-800 font-medium mb-4 line-clamp-2">{{ phrase.text }}</p>
+              <p class="text-gray-800 font-medium mb-4 line-clamp-2">{{ phrase.texto.texto }}</p>
+              <div class="flex items-center w-full justify-end space-x-2">
+                <span class="text-sm text-gray-500">{{ formatDate(phrase.fecha) }}</span>
+              </div>
               <div class="flex flex-wrap gap-2 mb-4">
-                @for (tag of phrase.tags; track $index) {
+                @for (tag of phrase.texto.tags; track $index) {
                   <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-md text-sm">
-                    {{ tag }}
+                    {{ phrase.texto.tag }}
                   </span>
                 }
               </div>
 
             
             <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-              <span class="text-sm text-gray-500">{{ phrase.category }}</span>
+              <span class="text-sm text-gray-500">{{ phrase.texto.tag }}</span>
               <div class="flex items-center space-x-1">
-                <span class="text-sm font-medium">{{ phrase.recordingsCount }}</span>
-                <span class="text-sm text-gray-500">grabaciones</span>
+                <span class="text-sm font-medium">{{ phrase.duracion }}</span>
+                <span class="text-sm text-gray-500">segundos</span>
               </div>
             </div>
           </div>
@@ -96,33 +86,47 @@
 
       <!-- Users Cards -->
        @if(activeTab === 'users') {
-        @for (user of getFilteredItems(); track $index) {
+        @for (user of users; track $index) {
           <div class="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 
                       transform hover:-translate-y-1 overflow-hidden">
             <div class="p-6">
+              <div class="flex items-center justify-end space-x-2">
+                <button class="p-2 flex items-center justify-center bg-green-100 rounded-lg cursor-pointer hover:bg-green-200 transition-all duration-200">
+                  <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                  </svg>                    
+                </button>
+                <button class="p-2 flex items-center justify-center bg-red-100 rounded-lg cursor-pointer hover:bg-red-200 transition-all duration-200">
+                  <svg class="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clip-rule="evenodd"/>
+                  </svg>
+                </button>
+              </div>
               <div class="flex items-center space-x-4 mb-4">
-                <div [style.background-color]="user.avatarColor"
+                
+                <div [style.background-color]=""
                      class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                  {{ user.name.charAt(0) }}
+                  {{ user.nombre.charAt(0) }}
                 </div>
                 <div>
-                  <h3 class="font-medium text-gray-800">{{ user.name }}</h3>
-                  <p class="text-sm text-gray-500">{{ user.email }}</p>
+                  <h3 class="font-medium text-gray-800">{{ user.nombre }}</h3>
+                  <p class="text-sm text-gray-500">{{ user.mail }}</p>
                 </div>
+                
               </div>
               <div class="flex items-center justify-between mb-4">
                 <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                  {{ user.role }}
+                  {{ user.rol }}
                 </span>
                 <span class="text-sm text-gray-500">
-                  Última actividad: {{ formatDate(user.lastActive) }}
+                  Última actividad: {{ formatDate(user.ultima_conexion) }}
                 </span>
               </div>
               
               <div class="pt-4 border-t border-gray-100">
                 <div class="flex items-center justify-between">
                   <span class="text-sm text-gray-500">Grabaciones realizadas</span>
-                  <span class="text-sm font-medium">{{ user.recordingsCount }}</span>
+                  <span class="text-sm font-medium">{{ user.cant_audios }}</span>
                 </div>
               </div>
             </div>

@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { trigger, transition, style, animate, query, stagger } from "@angular/animations"
 import { NavbarComponent } from '../../../components/navbar/navbar.component';
+import { DbService } from '../../../core/db.service';
+import { AuthService } from '../../../auth/services/auth.service';
 
 const cardAnimation = trigger("cardAnimation", [
   transition("* => *", [
@@ -39,60 +41,26 @@ export class AdminIndexComponent {
   searchTerm = ""
   selectedCategory = "all"
   tabs: ('phrases' | 'users')[] = ['phrases', 'users'];
+  private dbService = inject(DbService);
+  private authService = inject(AuthService);
+  usuarioConectado: any;
 
   ngOnInit() {
-    // Simular datos de ejemplo
-    this.phrases = this.generatePhrases()
-    this.users = this.generateUsers()
-  }
+    this.authService.usuario$.subscribe(usuario => this.usuarioConectado = usuario);
+    this.dbService.getUsersByParent(this.usuarioConectado.mail).subscribe((data: any) => {
+      this.users = data;
+      for (let i = 0; i < this.users.length; i++) {
+        this.dbService.getAudiosByUser(this.users[i].mail).subscribe((data: any) => {
+          console.log(data);
+          if(data.length > 0) {
+          this.phrases.push(data);
+          console.log(this.phrases);
+          }
+        });
+      }
+    });
+    console.log(this.phrases);
 
-  private generatePhrases(): any[] {
-    const categories = ["General", "Técnico", "Comercial", "Soporte"]
-    const tags = ["Importante", "Urgente", "Nueva", "Revisada", "En proceso"]
-
-    return Array.from({ length: 12 }, (_, i) => ({
-      id: `phrase-${i + 1}`,
-      text: `Frase de ejemplo ${i + 1} para demostración del sistema`,
-      createdAt: new Date(Date.now() - Math.random() * 10000000000),
-      recordingsCount: Math.floor(Math.random() * 100),
-      category: categories[Math.floor(Math.random() * categories.length)],
-      status: ["active", "pending", "archived"][Math.floor(Math.random() * 3)] as "active" | "pending" | "archived",
-      tags: Array.from(
-        { length: Math.floor(Math.random() * 3) + 1 },
-        () => tags[Math.floor(Math.random() * tags.length)],
-      ),
-    }))
-  }
-
-  private generateUsers(): any[] {
-    const roles = ["Admin", "Editor", "Usuario"]
-    const colors = ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEEAD"]
-
-    return Array.from({ length: 8 }, (_, i) => ({
-      id: `user-${i + 1}`,
-      name: `Usuario ${i + 1}`,
-      email: `usuario${i + 1}@ejemplo.com`,
-      role: roles[Math.floor(Math.random() * roles.length)],
-      lastActive: new Date(Date.now() - Math.random() * 1000000000),
-      recordingsCount: Math.floor(Math.random() * 50),
-      avatarColor: colors[Math.floor(Math.random() * colors.length)],
-    }))
-  }
-
-  getFilteredItems() {
-    const items = this.activeTab === "phrases" ? this.phrases : this.users
-    return items.filter((item) => {
-      const searchMatch =
-        this.activeTab === "phrases"
-          ? (item as any).text.toLowerCase().includes(this.searchTerm.toLowerCase())
-          : (item as any).name.toLowerCase().includes(this.searchTerm.toLowerCase())
-
-      if (this.selectedCategory === "all") return searchMatch
-
-      return this.activeTab === "phrases"
-        ? (item as any).category === this.selectedCategory && searchMatch
-        : (item as any).role === this.selectedCategory && searchMatch
-    })
   }
 
   getCategories() {
@@ -101,14 +69,19 @@ export class AdminIndexComponent {
       : ["Admin", "Editor", "Usuario"]
   }
 
-  formatDate(date: Date): string {
+  formatDate(dateString: string): string {
+    // Recorta los milisegundos a 3 dígitos si es necesario
+    const dateNormalized = dateString.replace(/(\.\d{3})\d*/, '$1');
+    const date = new Date(dateNormalized); // Convierte la cadena ISO en un objeto Date
+  
     return new Intl.DateTimeFormat("es-ES", {
       day: "2-digit",
       month: "short",
       year: "numeric",
-    }).format(date)
+    }).format(date);
   }
-
+  
+  
   getStatusColor(status: string): string {
     const colors = {
       active: "bg-green-100 text-green-800",

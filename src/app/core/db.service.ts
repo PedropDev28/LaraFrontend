@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class DbService {
 
-  private apiUrl = 'https://didactic-waffle-45px7x94grgf5q49-8000.app.github.dev';
+  private apiUrl = 'https://organic-fishstick-564pxgw9g4jh7w9w-8000.app.github.dev';
   constructor(private http: HttpClient) { }
 
   // Autenticación: Login

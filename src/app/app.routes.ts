@@ -14,8 +14,8 @@ export const routes: Routes = [
     {path: '', component: LoginComponent, 'pathMatch': 'full'},
     {path: 'consentimiento', component: ConsentComponent, canActivate: [clientGuard, adminGuard, technicianGuard]},
     {path: 'inicioCliente', component: ClientIndexComponent, canActivate: [clientGuard]},
-    {path: 'view-tags', component: ClientViewTagsComponent, canActivate: [clientGuard]},
-    {path: 'record-audio', component: ClientRecordAudioComponent, canActivate: [clientGuard]},
+    {path: 'view-tags', component: ClientViewTagsComponent},
+    {path: 'record-audio', component: ClientRecordAudioComponent},
     {path: 'inicioAdmin', component: AdminIndexComponent, canActivate: [adminGuard]},
     {path: 'inicioTecnico', component: TechnicianIndexComponent, canActivate: [technicianGuard]},
 ];
